@@ -373,7 +373,7 @@ public class BondChangeCalculator extends AbstractChangeCalculator implements IC
                     }
                     IAtomContainer product = getAtomContainer(bondP, reaction.getProducts());
                     IAtomContainer cloneProduct = product.getBuilder().newInstance(IAtomContainer.class, product);
-                    int chippedBondIndex = product.getBondNumber(bondP);
+                    int chippedBondIndex = product.indexOf(bondP);
                     totalSmallestFragmentSize += chipTheBondCountSmallestFragmentSize(cloneProduct, chippedBondIndex);
                     formedCleavedWFingerprint.add(new Feature(getCanonicalisedBondChangePattern(bondP), 1.0));
                 }
@@ -416,7 +416,7 @@ public class BondChangeCalculator extends AbstractChangeCalculator implements IC
                     }
                     IAtomContainer reactant = getAtomContainer(bondR, reaction.getReactants());
                     IAtomContainer cloneReactant = reactant.getBuilder().newInstance(IAtomContainer.class, reactant);
-                    int chippedBondIndex = reactant.getBondNumber(bondR);
+                    int chippedBondIndex = reactant.indexOf(bondR);
                     totalSmallestFragmentSize += chipTheBondCountSmallestFragmentSize(cloneReactant, chippedBondIndex);
                     formedCleavedWFingerprint.add(new Feature(getCanonicalisedBondChangePattern(bondR), 1.0));
                 }
@@ -1076,7 +1076,7 @@ public class BondChangeCalculator extends AbstractChangeCalculator implements IC
                          */
                         if (atom.getSymbol().equalsIgnoreCase("H") && mappings.containsKey(atom)) {
                             if (atom.getProperty(BOND_CHANGE_INFORMATION) == null) {
-                                mol.removeAtomAndConnectedElectronContainers(atom);
+                                mol.removeAtom(atom);
                             }
                         }
                     }
@@ -1098,7 +1098,7 @@ public class BondChangeCalculator extends AbstractChangeCalculator implements IC
                          */
                         if (atom.getSymbol().equalsIgnoreCase("H") && mappings.containsValue(atom)) {
                             if (atom.getProperty(BOND_CHANGE_INFORMATION) == null) {
-                                mol.removeAtomAndConnectedElectronContainers(atom);
+                                mol.removeAtom(atom);
                             }
                         }
                     }

@@ -23,6 +23,7 @@
 package org.openscience.smsd;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.logging.Level;
 import org.openscience.cdk.exception.CDKException;
@@ -155,7 +156,7 @@ public class BaseMapping extends ChemicalFilters implements IAtomMapping {
                 double matchCount = (double) firstAtomMCS.getCount();
                 tanimotoAtom = (matchCount) / (rAtomCount + pAtomCount - matchCount);
                 BigDecimal tan = new BigDecimal(tanimotoAtom);
-                tan = tan.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+                tan = tan.setScale(decimalPlaces, RoundingMode.HALF_UP);
                 tanimotoAtom = tan.doubleValue();
             }
         }
@@ -230,7 +231,7 @@ public class BaseMapping extends ChemicalFilters implements IAtomMapping {
                 double common = (double) firstAtomMCS.getCount();
                 euclidean = Math.sqrt(sourceAtomCount + targetAtomCount - 2 * common);
                 BigDecimal dist = new BigDecimal(euclidean);
-                dist = dist.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+                dist = dist.setScale(decimalPlaces, RoundingMode.HALF_UP);
                 euclidean = dist.doubleValue();
             }
         }

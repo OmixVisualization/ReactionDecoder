@@ -127,8 +127,8 @@ public final class MoleculeHandler {
             IBond bond = ac.getBond(i);
             /*This will fetch the connected ATOM as integer and its Bond order ex: 2 as double, 1 as single */
             // System.out.println(ac.getAtomNumber(bond.getAtom(0))+" "+ac.getAtomNumber(bond.getAtom(1))+" "+(int)bond.getOrder());
-            intTable.add((ac.getAtomNumber(bond.getAtom(0)) + 1));//Plus one because Java Indexing is one less
-            intTable.add((ac.getAtomNumber(bond.getAtom(1)) + 1));//Plus one because Java indexing is one less
+            intTable.add((ac.indexOf(bond.getAtom(0)) + 1));//Plus one because Java Indexing is one less
+            intTable.add((ac.indexOf(bond.getAtom(1)) + 1));//Plus one because Java indexing is one less
             if (matchBonds) {
                 intTable.add((int) bond.getOrder().numeric());
             } else {
