@@ -106,20 +106,20 @@ public final class EnergyFilter extends Sotter implements IChemicalFilter<Double
         IAtomContainer product = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainer.class, chemfilter.getTarget());
 
         for (int i = 0; i < educt.getAtomCount(); i++) {
-            educt.getAtom(i).setFlag(100, false);
+            educt.getAtom(i).setProperty("EnergyFilter.flag", false);
         }
 
         for (int i = 0; i < product.getAtomCount(); i++) {
-            product.getAtom(i).setFlag(100, false);
+            product.getAtom(i).setProperty("EnergyFilter.flag", false);
         }
 
         if (mcsAtomSolution != null) {
             Map<IAtom, IAtom> mappingsByAtoms = mcsAtomSolution.getMappingsByAtoms();
             mappingsByAtoms.entrySet().stream().map((mapping) -> {
-                mapping.getKey().setFlag(100, true);
+                mapping.getKey().setProperty("EnergyFilter.flag", true);
                 return mapping;
             }).forEach((mapping) -> {
-                mapping.getValue().setFlag(100, true);
+                mapping.getValue().setProperty("EnergyFilter.flag", true);
             });
             totalBondEnergy = getEnergy(educt, product);
         }
@@ -128,11 +128,11 @@ public final class EnergyFilter extends Sotter implements IChemicalFilter<Double
          * Reset the flag
          */
         for (int i = 0; i < educt.getAtomCount(); i++) {
-            educt.getAtom(i).setFlag(100, false);
+            educt.getAtom(i).setProperty("EnergyFilter.flag", false);
         }
 
         for (int i = 0; i < product.getAtomCount(); i++) {
-            product.getAtom(i).setFlag(100, false);
+            product.getAtom(i).setProperty("EnergyFilter.flag", false);
         }
 
         return totalBondEnergy;
@@ -155,8 +155,8 @@ public final class EnergyFilter extends Sotter implements IChemicalFilter<Double
 
     private synchronized static double getBondEnergy(IBond bond, BondEnergies bondEnergy) {
         double energy = 0.0;
-        if ((bond.getAtom(0).getFlag(100) == true && bond.getAtom(1).getFlag(100) == false)
-                || (bond.getAtom(0).getFlag(100) == false && bond.getAtom(1).getFlag(100) == true)) {
+        if ((Boolean.TRUE.equals(bond.getAtom(0).getProperty("EnergyFilter.flag")) && Boolean.FALSE.equals(bond.getAtom(1).getProperty("EnergyFilter.flag")))
+                || (Boolean.FALSE.equals(bond.getAtom(0).getProperty("EnergyFilter.flag")) && Boolean.TRUE.equals(bond.getAtom(1).getProperty("EnergyFilter.flag")))) {
             int val = bondEnergy.getEnergies(bond.getAtom(0), bond.getAtom(1), bond.getOrder());
             energy = val;
         }
